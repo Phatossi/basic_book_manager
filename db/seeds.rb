@@ -1,6 +1,6 @@
 
 
-Author.create({
+author = Author.create({
     id: 1,
     name: 'Ryan Holiday',
     age: 29

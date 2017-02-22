@@ -12,9 +12,7 @@ class CreateInitialTables < ActiveRecord::Migration[5.0]
       t.timestamps
     end
 
-    create_table :authors_books do |t|
-      t.references :author, index: true
-      t.references :book, index: true
+    create_join_table :authors, :books do |t|
       t.timestamps
     end
 
