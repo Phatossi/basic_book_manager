@@ -8,7 +8,7 @@ require_all 'models/*.rb'
 db_config = YAML::load(File.open('config/database.yml'))['default']
 ActiveRecord::Base.establish_connection(db_config)
 
-Person.find_each do |p|
+Book.find_each do |p|
   puts "------"
   pp p
   pp p.home_address
