@@ -22,7 +22,6 @@ be used for exploration purposes.
 
 
 ## Original Source
-This example is based off of a Git from Johannes Schickling
+This example is based off of a repository developed by James Blackwell
+https://github.com/jdblack/active_record_example
 
-GitHub Gist,  Johannes Schickling
-https://gist.github.com/schickling/6762581
