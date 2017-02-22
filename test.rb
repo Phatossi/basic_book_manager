@@ -11,7 +11,5 @@ ActiveRecord::Base.establish_connection(db_config)
 Book.find_each do |p|
   puts "------"
   pp p
-  pp p.home_address
-  pp p.work_address
 end
 
