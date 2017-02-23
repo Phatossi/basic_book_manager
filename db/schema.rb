@@ -15,22 +15,14 @@ ActiveRecord::Schema.define(version: 20170101162124) do
   create_table "authors", force: :cascade do |t|
     t.string  "name"
     t.integer "age"
-    t.integer "author_book_id"
-  end
-
-  create_table "authors_books", id: false, force: :cascade do |t|
-    t.integer  "author_id",  null: false
-    t.integer  "book_id",    null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "books", force: :cascade do |t|
     t.string   "title"
     t.string   "isbn"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
-    t.integer  "author_book_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "author_id"
   end
 
 end

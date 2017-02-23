@@ -12,15 +12,10 @@ class CreateInitialTables < ActiveRecord::Migration[5.0]
       t.timestamps
     end
 
-    create_join_table :authors, :books do |t|
-      t.timestamps
-    end
-
-    add_column :books, :author_book_id, :integer
-    add_column :authors, :author_book_id, :integer
-
+    add_column :books, :author_id, :integer
 
   end
+
   def self.down
   end
 

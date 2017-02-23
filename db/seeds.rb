@@ -5,25 +5,16 @@ author = Author.create({
     })
 
 
-first_book = Book.create({
+Book.create({
     id: 1,
     title: 'Ego is the enemy',
     isbn: 'ISBN 1',
+    author: author
     })
 
-second_book = Book.create({
+Book.create({
     id: 2,
     title: 'The obstacle is the way',
     isbn: 'ISBN 2',
+    author: author
     })
-
-AuthorsBook.create({
-    author: author,
-    book: first_book
-    })
-
-AuthorsBook.create({
-    author: author,
-    book: second_book
-    })
-
