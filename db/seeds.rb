@@ -4,7 +4,6 @@ author = Author.create({
     age: 29
     })
 
-
 Book.create({
     id: 1,
     title: 'Ego is the enemy',

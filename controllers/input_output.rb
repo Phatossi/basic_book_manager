@@ -9,7 +9,7 @@ class InputOutput
     #These are the functions that you can use
     puts "These are the services that we offer you for the moment: "
     print_functions
-    puts "Write the name of the service that you want to use."
+    puts "\nWrite the name of the service that you want to use."
     get_input
   end
 
@@ -20,7 +20,7 @@ class InputOutput
       if functions.include? (input)
         break
       end
-      puts "Please type a valid action:"
+      puts "\nPlease type a valid action:"
       print_functions
       input = gets.chomp
     end

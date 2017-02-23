@@ -1,4 +1,6 @@
-class BookManager
+require_relative 'manager.rb'
+
+class BookManager < Manager
   def self.add
 
   end
