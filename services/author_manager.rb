@@ -7,9 +7,6 @@ require_relative '../models/Author'
 
 class AuthorManager < Manager
 
-
-
-
   before_save do |element|
     env = 'default' || ENV['env']
     db_config = YAML::load(File.open('config/database.yml'))[env]
@@ -18,7 +15,9 @@ class AuthorManager < Manager
   end
 
 
-
+  def self.get(name)
+    Author.find_by(name: name)
+  end
 
   def self.add(name, age)
     Author.create({
@@ -28,27 +27,28 @@ class AuthorManager < Manager
   end
 
   def self.edit(old_name, new_name, age)
-      author = Author.find_by(name: old_name)
+      author =  get(old_name)
       if author
-        if new_name
+        if new_name && !new_name.to_s.empty?
           author.update(name: new_name)
         end
-        if age
+        if is_valid_age?(age)
           author.update(age: age)
         end
         author.save
-        puts "The author was updated successfully."
+        "The author was updated successfully."
       else
-        puts "Author was not found"
+        "Author was not found"
       end
   end
 
-  def self.get
+  def self.delete(name)
 
   end
 
-  def self.delete
-
+  private
+  def AuthorManager.is_valid_age? (string)
+    true if Float(string) > 0 rescue false
   end
 
 end
