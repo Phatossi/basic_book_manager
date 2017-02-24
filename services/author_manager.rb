@@ -18,11 +18,12 @@ class AuthorManager < Manager
   def self.get(name)
     if string_is_not_blank?(name)
       Author.find_by(name: name)
+    else
+      "Author was not found"
     end
   end
 
   def self.add(name, age)
-    #should not allow adding authors with the same name
     author = AuthorManager.get(name)
     if author
       "An author with this name is already registered in our database."

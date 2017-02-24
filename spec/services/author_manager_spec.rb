@@ -5,13 +5,19 @@ require_relative '../../services/author_manager.rb'
 
 describe 'AuthorManager' do
 
-    before :each do
-
+    it 'should not add an author with a name that was used before' do
+      author = double(Author, create: true)
+      allow(Author).to receive(:find_by).and_return(author)
+      output = AuthorManager.add('Ryan Holiday', 28)
+      expect(output).to eq("An author with this name is already registered in our database.")
     end
 
     it 'should add an author' do
+      author = double(Author, find_by: true)
       expect(Author).to receive (:create)
-      AuthorManager.add('Ryan Holiday', 23)
+      allow(Author).to receive(:find_by)
+      output = AuthorManager.add('Ryan Holiday', 28)
+      expect(output).to eq("The author has been registered successfully.")
     end
 
     it 'should not edit an author who is not found' do
@@ -48,7 +54,7 @@ describe 'AuthorManager' do
       allow(Author).to receive(:find_by).with(name: name)
      #expect(author).to receive(destroy)
       error = AuthorManager.delete(name)
-      expect("Author was not found").to eq(error)
+      expect("Author was not found.").to eq(error)
     end
 
     it 'should delete the author' do
@@ -59,5 +65,8 @@ describe 'AuthorManager' do
       output = AuthorManager.delete(name)
       expect("The author was deleted successfully.").to eq(output)
     end
+
+
+
 
 end
