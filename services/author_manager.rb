@@ -61,17 +61,4 @@ class AuthorManager < Manager
     end
   end
 
-  private
-  def AuthorManager.is_valid_age? (string)
-    true if Float(string) > 0 rescue false
-  end
-
-  def AuthorManager.string_is_not_blank? (string)
-    if string && !string.to_s.empty?
-      true
-    else
-      false
-    end
-  end
-
 end

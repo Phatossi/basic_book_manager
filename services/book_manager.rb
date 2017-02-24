@@ -1,7 +1,7 @@
 require_relative 'manager.rb'
 
 class BookManager < Manager
-  def self.add
+  def self.add(title, isbn, author)
 
   end
 
