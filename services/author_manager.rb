@@ -22,10 +22,17 @@ class AuthorManager < Manager
   end
 
   def self.add(name, age)
+    #should not allow adding authors with the same name
+    author = AuthorManager.get(name)
+    if author
+      "An author with this name is already registered in our database."
+    else
     Author.create({
       name: name,
       age: age
       })
+    "The author has been registered successfully."
+    end
   end
 
   def self.edit(old_name, new_name, age)
@@ -40,7 +47,7 @@ class AuthorManager < Manager
         author.save
         "The author was updated successfully."
       else
-        "Author was not found"
+        "Author was not found."
       end
   end
 
@@ -50,7 +57,7 @@ class AuthorManager < Manager
       author.destroy
       "The author was deleted successfully."
     else
-      "Author was not found"
+      "Author was not found."
     end
   end
 

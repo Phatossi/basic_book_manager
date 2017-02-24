@@ -60,6 +60,4 @@ describe 'AuthorManager' do
       expect("The author was deleted successfully.").to eq(output)
     end
 
-
-
 end
