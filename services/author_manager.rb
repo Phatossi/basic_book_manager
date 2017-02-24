@@ -32,7 +32,6 @@ class AuthorManager < Manager
       if author
         if new_name
           author.update(name: new_name)
-          puts "Author updated the name"
         end
         if age
           author.update(age: age)
