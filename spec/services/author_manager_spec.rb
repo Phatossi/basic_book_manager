@@ -1,6 +1,4 @@
 require_relative '../../services/author_manager.rb'
-#require 'active_record'
-#require 'yaml'
 
 
 describe 'AuthorManager' do
