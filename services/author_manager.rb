@@ -16,7 +16,9 @@ class AuthorManager < Manager
 
 
   def self.get(name)
-    Author.find_by(name: name)
+    if string_is_not_blank?(name)
+      Author.find_by(name: name)
+    end
   end
 
   def self.add(name, age)
@@ -29,7 +31,7 @@ class AuthorManager < Manager
   def self.edit(old_name, new_name, age)
       author =  get(old_name)
       if author
-        if new_name && !new_name.to_s.empty?
+        if string_is_not_blank?(new_name)
           author.update(name: new_name)
         end
         if is_valid_age?(age)
@@ -43,12 +45,26 @@ class AuthorManager < Manager
   end
 
   def self.delete(name)
-
+    author = AuthorManager.get(name)
+    if author
+      author.destroy
+      "The author was deleted successfully."
+    else
+      "Author was not found"
+    end
   end
 
   private
   def AuthorManager.is_valid_age? (string)
     true if Float(string) > 0 rescue false
+  end
+
+  def AuthorManager.string_is_not_blank? (string)
+    if string && !string.to_s.empty?
+      true
+    else
+      false
+    end
   end
 
 end
