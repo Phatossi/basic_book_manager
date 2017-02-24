@@ -1,10 +1,5 @@
-require_relative 'manager.rb'
-
-require 'active_record'
-require 'require_all'
-require 'yaml'
-require_relative '../models/Author'
-
+require_relative '../models/author'
+require_relative 'manager'
 class AuthorManager < Manager
 
   before_save do |element|

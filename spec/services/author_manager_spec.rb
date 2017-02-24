@@ -1,10 +1,9 @@
-require_relative '../../services/author_manager.rb'
-
-
-describe 'AuthorManager' do
+require_relative '../../services/author_manager'
+require_relative '../../services/manager'
+describe AuthorManager do
 
     it 'should not add an author with a name that was used before' do
-      author = double(Author, create: true)
+      author = double(Author)
       allow(Author).to receive(:find_by).and_return(author)
       output = AuthorManager.add('Ryan Holiday', 28)
       expect(output).to eq("An author with this name is already registered in our database.")
