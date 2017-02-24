@@ -48,6 +48,11 @@ describe 'AuthorManager' do
       AuthorManager.get('Ryan Holiday')
     end
 
+    it 'should not get the author with empty name' do
+      output = AuthorManager.get('')
+      expect(output).to eq('Author was not found')
+    end
+
     it 'should not delete the author that is not found' do
       name = 'Ryan Holiday'
       author = instance_double(Author, destroy: true)

@@ -14,7 +14,6 @@ class AuthorManager < Manager
     ActiveRecord::Base.establish_connection(db_config_admin)
   end
 
-
   def self.get(name)
     if string_is_not_blank?(name)
       Author.find_by(name: name)
