@@ -110,5 +110,18 @@ describe 'BookManager' do
     expect(output).to eq("The book was updated successfully.")
   end
 
+  it 'should not delete a book not found' do
+    allow(BookManager).to receive(:get)
+    output = BookManager.delete('Ego is the enemy', nil)
+    expect(output).to eq('Book was not found.')
+  end
+
+  it 'should delete the book' do
+    book = double(Book)
+    allow(Book).to receive(:find_by).and_return(book)
+    allow(book).to receive(:destroy)
+    output = BookManager.delete('Ego is the enemy', 'ISBN 31')
+    expect(output).to eq('The book was deleted successfully.')
+  end
 
 end

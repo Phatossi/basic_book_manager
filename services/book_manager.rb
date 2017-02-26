@@ -72,7 +72,14 @@ class BookManager < Manager
   end
 
 
-  def self.delete
+  def self.delete(title, isbn)
+    book = BookManager.get(title, nil, nil)
+    if !book
+      'Book was not found.'
+    else
+      book.destroy
+      'The book was deleted successfully.'
+    end
 
   end
 
