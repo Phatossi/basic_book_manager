@@ -1,4 +1,5 @@
 require_relative 'manager'
+require_relative 'author_manager'
 require_relative '../models/book'
 
 class BookManager < Manager
@@ -11,9 +12,9 @@ class BookManager < Manager
   end
 
   def self.get(title, isbn, author)
-    if !string_is_not_blank?(title)
+    if string_is_not_blank?(title)
       Book.find_by(title: title)
-    elsif !string_is_not_blank?(isbn)
+    elsif string_is_not_blank?(isbn)
       Book.find_by(isbn: isbn)
     elsif author
       author = AuthorManager.get(name)
@@ -21,7 +22,7 @@ class BookManager < Manager
         Book.find_by(author: author)
       end
     else
-      "Book was not found"
+      "Book was not found."
     end
   end
 
