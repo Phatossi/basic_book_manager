@@ -35,8 +35,7 @@ class BookManager < Manager
     elsif !author
       'Book author cannot be empty.'
     else
-      name = author.name
-      found_author = AuthorManager.get(name)
+      found_author = AuthorManager.get(author.name)
       if !found_author
        found_author = Author.create({
                 name: author.name,
@@ -52,8 +51,22 @@ class BookManager < Manager
     end
   end
 
-  def self.edit
-
+  def self.edit(old_title, title, isbn)
+    if !string_is_not_blank? (old_title)
+      'Please provide the title of the book.'
+    end
+    book = BookManager.get(title, '', '')
+    if !book
+      'Book was not found.'
+    end
+    if !string_is_not_blank?(title)
+      book.update(title: title)
+    end
+    if !string_is_not_blank?(isbn)
+      book.update(title: isbn)
+    end
+    book.save
+    'The book was updated successfully.'
   end
 
 
