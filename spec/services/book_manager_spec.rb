@@ -110,6 +110,7 @@ describe 'BookManager' do
     expect(output).to eq("The book was updated successfully.")
   end
 
+
   it 'should not delete a book not found' do
     allow(BookManager).to receive(:get)
     output = BookManager.delete('Ego is the enemy', nil)
