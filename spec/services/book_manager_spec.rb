@@ -70,5 +70,45 @@ describe 'BookManager' do
     expect(output).to eq('Book was added successfully.')
   end
 
+  it 'should not edit a book without a title' do
+    output = BookManager.edit(nil, nil, nil)
+    expect(output).to eq('Please provide the title of the book.')
+  end
+
+  it 'should not edit a book that is not found' do
+    allow(BookManager).to receive(:get)
+    output = BookManager.edit('Ego is the enemy', '', '')
+    expect(output).to eq('Book was not found.')
+  end
+
+
+  it "should edit only the book's title'" do
+    book = double(Book, find_by: true, title: true)
+    allow(book).to receive(:update)
+    allow(book).to receive(:save)
+    allow(Book).to receive(:find_by).and_return(book)
+    output = BookManager.edit('The obstacle is the way', 'Ego is the enemy', '')
+    expect(output).to eq("The book was updated successfully.")
+  end
+
+
+  it "should edit only the book's isbn'" do
+    book = double(Book, find_by: true, title: true)
+    allow(book).to receive(:update)
+    allow(book).to receive(:save)
+    allow(Book).to receive(:find_by).and_return(book)
+    output = BookManager.edit('The obstacle is the way', '', 'Updated ISBN')
+    expect(output).to eq("The book was updated successfully.")
+  end
+
+  it "should edit a book's title and isbn" do
+    book = double(Book, find_by: true, isbn: true)
+    allow(book).to receive(:update)
+    allow(book).to receive(:save)
+    allow(Book).to receive(:find_by).and_return(book)
+    output = BookManager.edit('The obstacle is the way', 'Ego is the enemy', 'ISBN 2')
+    expect(output).to eq("The book was updated successfully.")
+  end
+
 
 end

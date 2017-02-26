@@ -54,19 +54,21 @@ class BookManager < Manager
   def self.edit(old_title, title, isbn)
     if !string_is_not_blank? (old_title)
       'Please provide the title of the book.'
-    end
-    book = BookManager.get(title, '', '')
+    else
+    book = BookManager.get(old_title, '', '')
     if !book
-      'Book was not found.'
+        'Book was not found.'
+    else
+      if !string_is_not_blank?(title)
+        book.update(title: title)
+      end
+      if !string_is_not_blank?(isbn)
+        book.update(isbn: isbn)
+      end
+      book.save
+      'The book was updated successfully.'
     end
-    if !string_is_not_blank?(title)
-      book.update(title: title)
     end
-    if !string_is_not_blank?(isbn)
-      book.update(title: isbn)
-    end
-    book.save
-    'The book was updated successfully.'
   end
 
 
