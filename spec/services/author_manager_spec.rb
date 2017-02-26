@@ -11,8 +11,8 @@ describe AuthorManager do
 
     it 'should add an author' do
       author = double(Author, find_by: true)
-      expect(Author).to receive (:create)
       allow(Author).to receive(:find_by)
+      expect(Author).to receive (:create)
       output = AuthorManager.add('Ryan Holiday', 28)
       expect(output).to eq("The author has been registered successfully.")
     end

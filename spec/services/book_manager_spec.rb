@@ -28,8 +28,46 @@ describe 'BookManager' do
     book = double(Book, find_by: true)
     allow(Author).to receive(:find_by).and_return(author)
     allow(Book).to receive(:find_by).and_return(book)
-    result = BookManager.get(nil, nil, author)
-    expect(result).to eq(book)
+    output = BookManager.get(nil, nil, author)
+    expect(output).to eq(book)
+  end
+
+  it 'should not add a book with an empty title' do
+    output = BookManager.add('', '', '')
+    expect(output).to eq("Book title cannot be empty.")
+  end
+
+  it 'should not add a book with an empty ISBN' do
+    output = BookManager.add('Ego is the enemy', '', '')
+    expect(output).to eq("Book ISBN cannot be empty.")
+  end
+
+  it 'should not add a book without an author' do
+    output = BookManager.add('Ego is the enemy', 'ISBN', nil)
+    expect(output).to eq("Book author cannot be empty.")
+  end
+
+  it 'should add a book with an existing author' do
+    author = class_double(Author, find_by: true)
+    book = double(Book)
+    allow(Author).to receive(:find_by).and_return(author)
+    allow(Book).to receive(:create)
+    expect(Book).to receive(:create)
+    output = BookManager.add('Ego is the enemy', 'ISBN', author)
+    expect(output).to eq('Book was added successfully.')
+  end
+
+  it 'should add a book with a new author' do
+    author = double(Author, find_by: true, create: true, age: 28, name: 'Ryan Holiday')
+    book = double(Book)
+    allow(Author).to receive(:find_by).and_return(author)
+    allow(Author).to receive(:create)
+    allow(Book).to receive(:create).and_return(book)
+    allow(AuthorManager).to receive(:get)
+    expect(Book).to receive(:create)
+    expect(Author).to receive(:create)
+    output = BookManager.add('Ego is the enemy', 'ISBN', author)
+    expect(output).to eq('Book was added successfully.')
   end
 
 

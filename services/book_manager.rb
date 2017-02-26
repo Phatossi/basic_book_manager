@@ -22,14 +22,33 @@ class BookManager < Manager
         Book.find_by(author: author)
       end
     else
-      "Book was not found."
+      'Book was not found.'
     end
   end
 
 
   def self.add(title, isbn, author)
     if !string_is_not_blank?(title)
-      "Book title cannot be empty"
+      'Book title cannot be empty.'
+    elsif !string_is_not_blank?(isbn)
+      'Book ISBN cannot be empty.'
+    elsif !author
+      'Book author cannot be empty.'
+    else
+      name = author.name
+      found_author = AuthorManager.get(name)
+      if !found_author
+       found_author = Author.create({
+                name: author.name,
+                age: author.age
+                })
+      end
+      Book.create({
+          title: title,
+          isbn: isbn,
+          author: author
+              })
+      'Book was added successfully.'
     end
   end
 
