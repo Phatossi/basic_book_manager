@@ -2,9 +2,14 @@ require_relative '../../services/author_manager'
 require_relative '../../services/manager'
 describe AuthorManager do
 
+  before do
+    allow(AuthorManager).to receive(:open_database_connection)
+  end
+
     it 'should not add an author with a name that was used before' do
       author = double(Author)
       allow(Author).to receive(:find_by).and_return(author)
+      allow(File).to receive(:open)
       output = AuthorManager.add('Ryan Holiday', 28)
       expect(output).to eq("An author with this name is already registered in our database.")
     end
@@ -45,9 +50,11 @@ describe AuthorManager do
       AuthorManager.get('Ryan Holiday')
     end
 
-    it 'should not get the author with empty name' do
+    it 'should get the author without name' do
+      author = double(Author)
+      allow(Author).to receive(:find_by).and_return(author)
       output = AuthorManager.get('')
-      expect(output).to eq('Author was not found')
+      expect(output).to eq (author)
     end
 
     it 'should not delete the author that is not found' do
