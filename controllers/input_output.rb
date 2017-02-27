@@ -6,7 +6,6 @@ class InputOutput
   end
 
   def display_functions
-    #These are the functions that you can use
     puts "These are the services that we offer you for the moment: "
     print_functions
     puts "\nWrite the name of the service that you want to use."
@@ -34,7 +33,7 @@ class InputOutput
 
   private
     def get_functions
-     ['add', 'update', 'list', 'remove']
+     ['add', 'update', 'list', 'remove', 'exit']
     end
     def print_functions
       functions = get_functions

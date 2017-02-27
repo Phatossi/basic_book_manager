@@ -80,7 +80,6 @@ class BookManager < Manager
       book.destroy
       'The book was deleted successfully.'
     end
-
   end
 
 end
