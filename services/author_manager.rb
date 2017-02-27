@@ -3,15 +3,22 @@ require_relative '../models/author'
 require 'pp'
 class AuthorManager < Manager
   def self.get(name)
-    if !string_is_not_blank?(name)
-      Author.all
-    end
     open_database_connection
+    if !string_is_not_blank?(name)
+      authors = Author.all
+      if !authors
+        'No author was found.'
+        return
+      end
+      authors
+    else
     author = Author.find_by(name: name)
     if !author
       'Author was not found'
+      return
     end
      author
+    end
   end
 
   def self.add(name, age)
@@ -55,9 +62,9 @@ class AuthorManager < Manager
     author = AuthorManager.get(name)
     if author
       author.destroy
-      puts 'The author was deleted successfully.'
+      'The author was deleted successfully.'
     else
-      puts 'Author was not found.'
+      'Author was not found.'
     end
   end
 

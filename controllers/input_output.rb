@@ -7,28 +7,37 @@ require 'active_record'
 class InputOutput
 
   def launch
-    puts '>>> Welcome to our book management system <<<'
-    puts 'Whenever you want to exit from the application, please type exit.'
+    start
     handle_input
-    handle_output
+    finish
+  end
+
+  def start
+    puts "\n\n>>> Welcome to our book management system. We wish you a joyful experience. <<<\n\n"
+  end
+
+  def finish
+    puts "\n\n>>> Thank you for taking the time to visit us. Happy reading. <<<\n\n"
   end
 
   def handle_input
-    display_functions
-    function = get_input_function
-    display_items
-    item = get_input_item
-    if item == 'Book'
-      handle_book_input(function)
-    else
-      puts function
-      handle_author_input(function)
+    loop do
+      display_functions
+      function = get_input_function
+      break if function == 'quit'
+        display_items
+      item = get_input_item
+      break if item == 'quit'
+      if item == 'Book'
+        handle_book_input(function)
+      else
+        handle_author_input(function)
+      end
+      puts 'If you want to get out of our library, please type quit'
     end
-
   end
 
   def handle_book_input(function)
-
     case function
       when 'add'
         BookManager.add('','', '')
@@ -58,7 +67,6 @@ class InputOutput
   def display_functions
     puts 'These are the services that we offer you for the moment: '
     print_functions
-    puts '\nWrite the name of the service that you want to use.'
   end
 
   def display_items
@@ -71,15 +79,15 @@ class InputOutput
   end
 
   def get_input_function
+    puts 'Write the name of the service that you want to use:'
     input = gets.chomp
     functions = get_functions
     loop do
-      if functions.include? (input)
-        break
-      end
-      puts '\nPlease type a valid action:'
-      print_functions
-      input = gets.chomp
+        break if functions.include? (input)
+        break if input == 'quit'
+        puts 'Please type a valid action:'
+        print_functions
+        input = gets.chomp
     end
     input
   end
@@ -89,31 +97,27 @@ class InputOutput
     input_item = gets.chomp
     loop do
       break if supported_items.include?(input_item)
+      break if input_item == 'quit'
       puts 'Please type a valid item:'
       print_items
       input_item = gets.chomp
     end
-  end
-
-  def finish
-    puts '>>> Thank you for taking the time to visit us. <<<'
+    input_item
   end
 
   private
     def get_functions
      ['add', 'update', 'list', 'remove']
     end
+
     def print_functions
       functions = get_functions
       functions.each do |element|
         p element
       end
     end
-    def call_action
 
-    end
-
-    def get_supported_items
+  def get_supported_items
       ['author', 'book']
     end
 
@@ -124,7 +128,6 @@ class InputOutput
       end
     end
 
-
     def add_author
       puts 'Type the name of the author:'
       name = gets.chomp
@@ -134,7 +137,7 @@ class InputOutput
     end
 
     def get_author
-      puts 'Type the name of the author that you want to find:'
+      puts 'Type the name of the author that you want to find. If you want to see the list of all author, press Enter'
       pp AuthorManager.get(gets.chomp)
     end
 
@@ -154,7 +157,7 @@ class InputOutput
         new_name = gets.chomp
         puts 'Type the new age of the author:'
         age = gets.chomp
-        AuthorManager.edit(old_name, new_name, age)
+        puts AuthorManager.edit(old_name, new_name, age)
     end
 
     def delete_author
@@ -165,7 +168,7 @@ class InputOutput
         puts 'Please type a name of an author that is already registered:'
         name = gets.chomp
       end
-      AuthorManager.delete(name)
+      puts AuthorManager.delete(name)
     end
 
 

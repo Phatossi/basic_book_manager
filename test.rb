@@ -11,5 +11,6 @@ ActiveRecord::Base.establish_connection(db_config)
 Author.find_each do |p|
   puts "------"
   pp p
+  puts "------"
 end
 
