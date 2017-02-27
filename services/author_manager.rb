@@ -9,7 +9,7 @@ class AuthorManager < Manager
     open_database_connection
     author = Author.find_by(name: name)
     if !author
-      "Author was not found"
+      'Author was not found'
     end
      author
   end
@@ -18,7 +18,7 @@ class AuthorManager < Manager
     open_database_connection
     author = self.get(name)
     if author
-      "An author with this name is already registered in our database."
+      'An author with this name is already registered in our database.'
     else
     open_database_connection
     name = name.split.map(&:capitalize).join(' ')
@@ -26,7 +26,7 @@ class AuthorManager < Manager
       name: name,
       age: age
       })
-    "The author has been registered successfully."
+    'The author has been registered successfully.'
     end
   end
 
@@ -45,7 +45,7 @@ class AuthorManager < Manager
           author.update(age: age)
         end
         author.save
-        "The author was updated successfully."
+        'The author was updated successfully.'
       end
   end
 
@@ -55,9 +55,9 @@ class AuthorManager < Manager
     author = AuthorManager.get(name)
     if author
       author.destroy
-      puts "The author was deleted successfully."
+      puts 'The author was deleted successfully.'
     else
-      puts "Author was not found."
+      puts 'Author was not found.'
     end
   end
 
