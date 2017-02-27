@@ -126,9 +126,9 @@ class InputOutput
 
 
     def add_author
-      puts "Type the name of the author:"
+      puts 'Type the name of the author:'
       name = gets.chomp
-      puts "Type the age of the author:"
+      puts 'Type the age of the author:'
       age = gets.chomp
       puts AuthorManager.add(name, age)
     end
