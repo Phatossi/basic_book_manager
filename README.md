@@ -18,7 +18,7 @@ be used for exploration purposes.
 1. Run ``` bundle ```
 2. Run ``` rake db:migrate ```
 3. Run ``` rake db:seed ```
-4. Run ``` init.rb ```
+4. Run ``` ruby init.rb ```
 
 
 ## Original Source
