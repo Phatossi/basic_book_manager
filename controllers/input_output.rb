@@ -7,8 +7,8 @@ require 'active_record'
 class InputOutput
 
   def launch
-    puts ">>> Welcome to our book management system <<<"
-    puts "Whenever you want to exit from the application, please type exit."
+    puts '>>> Welcome to our book management system <<<'
+    puts 'Whenever you want to exit from the application, please type exit.'
     handle_input
     handle_output
   end
@@ -56,13 +56,13 @@ class InputOutput
 
 
   def display_functions
-    puts "These are the services that we offer you for the moment: "
+    puts 'These are the services that we offer you for the moment: '
     print_functions
-    puts "\nWrite the name of the service that you want to use."
+    puts '\nWrite the name of the service that you want to use.'
   end
 
   def display_items
-    puts "These are the items that you can modify or get information about: "
+    puts 'These are the items that you can modify or get information about:'
     print_items
   end
 
@@ -77,7 +77,7 @@ class InputOutput
       if functions.include? (input)
         break
       end
-      puts "\nPlease type a valid action:"
+      puts '\nPlease type a valid action:'
       print_functions
       input = gets.chomp
     end
@@ -89,14 +89,14 @@ class InputOutput
     input_item = gets.chomp
     loop do
       break if supported_items.include?(input_item)
-      puts "Please type a valid item:"
+      puts 'Please type a valid item:'
       print_items
       input_item = gets.chomp
     end
   end
 
   def finish
-    puts ">>> Thank you for taking the time to visit us. <<<"
+    puts '>>> Thank you for taking the time to visit us. <<<'
   end
 
   private
