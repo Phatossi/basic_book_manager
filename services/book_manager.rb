@@ -7,9 +7,9 @@ class BookManager < Manager
 
   def self.get(title, isbn, author)
     open_database_connection
-    if string_is_not_blank?(title)
+    if !string_is_blank?(title)
       Book.find_by(title: title)
-    elsif string_is_not_blank?(isbn)
+    elsif !string_is_blank?(isbn)
       Book.find_by(isbn: isbn)
     elsif author
       author = AuthorManager.get(name)
@@ -23,9 +23,9 @@ class BookManager < Manager
 
 
   def self.add(title, isbn, author)
-    if !string_is_not_blank?(title)
+    if string_is_blank?(title)
       'Book title cannot be empty.'
-    elsif !string_is_not_blank?(isbn)
+    elsif string_is_blank?(isbn)
       'Book ISBN cannot be empty.'
     elsif !author
       'Book author cannot be empty.'
@@ -48,7 +48,7 @@ class BookManager < Manager
   end
 
   def self.edit(old_title, title, isbn)
-    if !string_is_not_blank? (old_title)
+    if !string_is_blank? (old_title)
       'Please provide the title of the book.'
     else
     open_database_connection
@@ -56,10 +56,10 @@ class BookManager < Manager
     if !book
         'Book was not found.'
     else
-      if !string_is_not_blank?(title)
+      if !string_is_blank?(title)
         book.update(title: title)
       end
-      if !string_is_not_blank?(isbn)
+      if !string_is_blank?(isbn)
         book.update(isbn: isbn)
       end
       book.save

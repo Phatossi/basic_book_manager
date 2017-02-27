@@ -5,11 +5,11 @@ require 'yaml'
 class Manager < ActiveRecord::Base
 
 
-  def self.string_is_not_blank? (string)
-    if string && !string.to_s.empty?
-      true
-    else
+  def self.string_is_blank? (string)
+    if string || !string.to_s.empty?
       false
+    else
+      true
     end
   end
 
@@ -20,6 +20,7 @@ class Manager < ActiveRecord::Base
     db_config_admin = db_config
     ActiveRecord::Base.establish_connection(db_config_admin)
   end
+
 
   def self.is_valid_age? (string)
     true if Float(string) > 0 rescue false

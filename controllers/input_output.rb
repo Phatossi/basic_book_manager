@@ -40,13 +40,13 @@ class InputOutput
   def handle_book_input(function)
     case function
       when 'add'
-        BookManager.add('','', '')
+        add_book
       when 'list'
-        BookManager.get('', '', '')
+        get_book
       when 'update'
-        BookManager.edit('', '', '')
+        edit_book
       when 'remove'
-        BookManager.delete('', '')
+        delete_book
     end
   end
 
@@ -145,7 +145,7 @@ class InputOutput
       puts 'Type the name of the author that you want to edit:'
       old_name = gets.chomp
       loop do
-        break if Manager.string_is_not_blank?(old_name)
+        break if !Manager.string_is_blank?(old_name)
         old_name = gets.chomp
       end
       author = AuthorManager.get(old_name)
@@ -164,11 +164,17 @@ class InputOutput
       puts 'Type the name of the author: '
       name = gets.chomp
       loop do
-        break if Manager.string_is_not_blank?(name)
+        break if !Manager.string_is_blank?(name)
         puts 'Please type a name of an author that is already registered:'
         name = gets.chomp
       end
       puts AuthorManager.delete(name)
+    end
+
+    def add_book
+      puts 'Type the title of the book that you want to add:'
+      name = gets.chomp
+
     end
 
 
