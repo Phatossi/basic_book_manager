@@ -6,10 +6,19 @@ require 'yaml'
 class Manager < ActiveRecord::Base
 
   private
+
+  def self.open_database_connection
+    env = 'default' || ENV['env']
+    db_config = YAML::load(File.open('config/database.yml'))[env]
+    db_config_admin = db_config
+    ActiveRecord::Base.establish_connection(db_config_admin)
+  end
+
   def self.is_valid_age? (string)
     true if Float(string) > 0 rescue false
   end
 
+  #Refactor
   def self.string_is_not_blank? (string)
     if string && !string.to_s.empty?
       true
