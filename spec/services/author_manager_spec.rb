@@ -76,6 +76,4 @@ describe AuthorManager do
     end
 
 
-
-
 end

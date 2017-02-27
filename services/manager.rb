@@ -2,11 +2,18 @@ require 'active_record'
 require 'require_all'
 require 'yaml'
 
-
 class Manager < ActiveRecord::Base
 
-  private
 
+  def self.string_is_not_blank? (string)
+    if string && !string.to_s.empty?
+      true
+    else
+      false
+    end
+  end
+
+  private
   def self.open_database_connection
     env = 'default' || ENV['env']
     db_config = YAML::load(File.open('config/database.yml'))[env]
@@ -18,13 +25,5 @@ class Manager < ActiveRecord::Base
     true if Float(string) > 0 rescue false
   end
 
-  #Refactor
-  def self.string_is_not_blank? (string)
-    if string && !string.to_s.empty?
-      true
-    else
-      false
-    end
-  end
 
 end

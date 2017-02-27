@@ -1,27 +1,27 @@
-require_relative '../models/author'
 require_relative 'manager'
+require_relative '../models/author'
+require 'pp'
 class AuthorManager < Manager
-
-  before_save do |element|
-    env = 'default' || ENV['env']
-    db_config = YAML::load(File.open('config/database.yml'))[env]
-    db_config_admin = db_config
-    ActiveRecord::Base.establish_connection(db_config_admin)
-  end
-
   def self.get(name)
-    if string_is_not_blank?(name)
-      Author.find_by(name: name)
-    else
+    if !string_is_not_blank?(name)
+      Author.all
+    end
+    open_database_connection
+    author = Author.find_by(name: name)
+    if !author
       "Author was not found"
     end
+     author
   end
 
   def self.add(name, age)
-    author = AuthorManager.get(name)
+    open_database_connection
+    author = self.get(name)
     if author
       "An author with this name is already registered in our database."
     else
+    open_database_connection
+    name = name.split.map(&:capitalize).join(' ')
     Author.create({
       name: name,
       age: age
@@ -31,9 +31,14 @@ class AuthorManager < Manager
   end
 
   def self.edit(old_name, new_name, age)
-      author =  get(old_name)
-      if author
+      open_database_connection
+      author = self.get(old_name)
+      p author
+      if !author
+        'Author was not found.'
+      else
         if string_is_not_blank?(new_name)
+          new_name = new_name.split.map(&:capitalize).join(' ')
           author.update(name: new_name)
         end
         if is_valid_age?(age)
@@ -41,18 +46,18 @@ class AuthorManager < Manager
         end
         author.save
         "The author was updated successfully."
-      else
-        "Author was not found."
       end
   end
 
+
   def self.delete(name)
+    open_database_connection
     author = AuthorManager.get(name)
     if author
       author.destroy
-      "The author was deleted successfully."
+      puts "The author was deleted successfully."
     else
-      "Author was not found."
+      puts "Author was not found."
     end
   end
 

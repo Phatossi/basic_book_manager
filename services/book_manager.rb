@@ -4,14 +4,9 @@ require_relative '../models/book'
 
 class BookManager < Manager
 
-  before_save do |element|
-    env = 'default' || ENV['env']
-    db_config = YAML::load(File.open('config/database.yml'))[env]
-    db_config_admin = db_config
-    ActiveRecord::Base.establish_connection(db_config_admin)
-  end
 
   def self.get(title, isbn, author)
+    open_database_connection
     if string_is_not_blank?(title)
       Book.find_by(title: title)
     elsif string_is_not_blank?(isbn)
@@ -35,6 +30,7 @@ class BookManager < Manager
     elsif !author
       'Book author cannot be empty.'
     else
+      open_database_connection
       found_author = AuthorManager.get(author.name)
       if !found_author
        found_author = Author.create({
@@ -55,6 +51,7 @@ class BookManager < Manager
     if !string_is_not_blank? (old_title)
       'Please provide the title of the book.'
     else
+    open_database_connection
     book = BookManager.get(old_title, '', '')
     if !book
         'Book was not found.'
@@ -73,6 +70,7 @@ class BookManager < Manager
 
 
   def self.delete(title, isbn)
+    open_database_connection
     book = BookManager.get(title, nil, nil)
     if !book
       'Book was not found.'
