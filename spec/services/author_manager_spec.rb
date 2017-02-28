@@ -46,7 +46,7 @@ describe AuthorManager do
       allow(author).to receive(:is_a?).and_return(true)
       expect(author).to receive (:save)
       output = AuthorManager.edit(name, '', 34)
-      expect("The author was updated successfully.").to eq(output)
+      expect('The author was updated successfully.').to eq(output)
     end
 
     it 'should get the author by name' do
@@ -57,6 +57,7 @@ describe AuthorManager do
     it 'should get the author without name' do
       author = double(Author)
       allow(Author).to receive(:find_by).and_return(author)
+      allow(Author).to receive(:all).and_return(author)
       output = AuthorManager.get('')
       expect(output).to eq (author)
     end
