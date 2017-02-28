@@ -4,7 +4,6 @@ require 'pp'
 class AuthorManager < Manager
   def self.get(name)
     open_database_connection
-    p name
     if is_string_blank?(name)
       authors = Author.all
       if !authors
