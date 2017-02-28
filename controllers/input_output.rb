@@ -222,7 +222,60 @@ class InputOutput
      puts BookManager.add(title, isbn, author)
     end
 
+   def get_book
+    puts 'Do you want to find the book by title, isbn, or author?'
+    input = gets.chomp
+     loop do
+       break if (input == 'author') || (input == 'isbn') || (input == 'title')
+       puts 'Please type a valid value (e.g. title, isbn, author)'
+       input =  gets.chomp
+     end
 
+    case input
+      when 'title'
+        get_book_by_title
+      when 'isbn'
+        get_book_by_isbn
+      when 'author'
+        get_book_by_author
+    end
+   end
+
+    def get_book_by_title
+      puts 'Type the name of the title'
+      title = gets.chomp
+      loop do
+        break if !Manager.is_string_blank?(title)
+        puts 'Please provide a valid title:'
+        title = gets.chomp
+      end
+      puts BookManager.get(title, '', '')
+    end
+
+    def get_book_by_isbn
+      puts 'Type the name of the title'
+      isbn = gets.chomp
+      loop do
+        break if !Manager.is_string_blank?(isbn)
+        puts 'Please provide a valid title:'
+        isbn = gets.chomp
+      end
+      puts BookManager.get('', isbn, '')
+    end
+
+    def get_book_by_author
+      author = get_author
+      puts BookManager.get('', '', author)
+    end
+
+
+   def edit_book
+
+   end
+
+   def delete_book
+
+   end
 
 end
 

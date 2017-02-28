@@ -8,13 +8,22 @@ class BookManager < Manager
   def self.get(title, isbn, author)
     open_database_connection
     if !is_string_blank?(title)
-      Book.find_by(title: title)
+      book = Book.find_by(title: title)
+      if !book
+        'Book was not found'
+      end
     elsif !is_string_blank?(isbn)
-      Book.find_by(isbn: isbn)
+      book = Book.find_by(isbn: isbn)
+      if !book
+        'Book was not found'
+      end
     elsif author
       author = AuthorManager.get(name)
       if author
-        Book.find_by(author: author)
+       book = Book.find_by(author: author)
+        if !book
+          'Book was not found'
+        end
       end
     else
       'Book was not found.'
