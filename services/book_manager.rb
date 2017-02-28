@@ -84,7 +84,7 @@ class BookManager < Manager
   end
 
 
-  def self.delete(title, isbn)
+  def self.delete(title)
     open_database_connection
     book = BookManager.get(title, nil, nil)
     if !book.is_a?(Book)
