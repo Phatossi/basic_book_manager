@@ -40,8 +40,7 @@ class AuthorManager < Manager
   def self.edit(old_name, new_name, age)
       open_database_connection
       author = self.get(old_name)
-      p author
-      if !author
+      if !author.is_a? (Author)
         'Author was not found.'
       else
         if !is_string_blank?(new_name)
