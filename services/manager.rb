@@ -6,7 +6,7 @@ class Manager < ActiveRecord::Base
 
 
   def self.is_string_blank? (string)
-    if string || !string.to_s.empty?
+    if string && !string.to_s.empty?
       false
     else
       true
@@ -21,10 +21,8 @@ class Manager < ActiveRecord::Base
     ActiveRecord::Base.establish_connection(db_config_admin)
   end
 
-
   def self.is_valid_age? (string)
     true if Float(string) > 0 rescue false
   end
-
 
 end

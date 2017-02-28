@@ -230,7 +230,6 @@ class InputOutput
        puts 'Please type a valid value (e.g. title, isbn, author)'
        input =  gets.chomp
      end
-
     case input
       when 'title'
         get_book_by_title
@@ -238,8 +237,8 @@ class InputOutput
         get_book_by_isbn
       when 'author'
         get_book_by_author
+     end
     end
-   end
 
     def get_book_by_title
       puts 'Type the name of the title'
@@ -268,14 +267,61 @@ class InputOutput
       puts BookManager.get('', '', author)
     end
 
-
    def edit_book
+      puts 'Do you want to change the title or the isbn of a book?'
+      input = gets.chomp
+      loop do
+        break if (input == 'title') || (input == 'isbn')
+        puts 'Please type a valid input (e.g. title, isbn):'
+        input = gets.chomp
+      end
+      case input
+        when 'title'
+         edit_book_title
+         when 'isbn'
+         edit_book_isbn
+        end
+      end
 
-   end
+    def edit_book_title
+      puts 'Type the old title:'
+      old_title = gets.chomp
+      loop do
+        break if !Manager.is_string_blank?(old_title)
+        puts 'Please provide a valid title:'
+        old_title = gets.chomp
+      end
+      puts 'Type the new title:'
+      new_title = gets.chomp
+      loop do
+        break if !Manager.is_string_blank?(new_title)
+        puts 'Please provide a valid title:'
+        new_title = gets.chomp
+      end
+      puts BookManager.edit(old_title, new_title, '')
+    end
 
-   def delete_book
+  def edit_book_isbn
+    puts 'Type the book title:'
+    old_title = gets.chomp
+    loop do
+      break if !Manager.is_string_blank?(old_title)
+      puts 'Please provide a valid title:'
+      old_title = gets.chomp
+    end
+    puts 'Type the ISBN:'
+    isbn = gets.chomp
+    loop do
+      break if !Manager.is_string_blank?(isbn)
+      puts 'Please provide a valid isbn:'
+      new_title = gets.chomp
+    end
+    puts BookManager.edit(old_title, '', isbn)
+  end
 
-   end
+    def delete_book
+
+    end
 
 end
 
