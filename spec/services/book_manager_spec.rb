@@ -2,8 +2,15 @@ require_relative '../../services/book_manager'
 require_relative '../../models/author'
 describe 'BookManager' do
 
-  it 'should not get a book without any parameters given' do
-    allow(Book).to receive(:find_by)
+
+  before do
+    allow(BookManager).to receive(:open_database_connection)
+    allow(File).to receive(:open)
+  end
+
+  it 'should get books without any parameters given' do
+    books = double(Book)
+    allow(Book).to receive(:all).and_return(books)
     result = BookManager.get(nil, nil, nil)
     expect(result).to eq("Book was not found.")
   end
@@ -11,7 +18,8 @@ describe 'BookManager' do
   it 'should get a book by title' do
     title = 'Ego is the enemy'
     book = double(Book, find_by: true)
-    allow(Book).to receive(:find_by).and_return(book)
+    allow(book).to receive(:is_a?).and_return(true)
+    allow(Book).to receive(:find_by).with(title: title).and_return(book)
     result = BookManager.get(title, nil, nil)
     expect(result).to eq(book)
   end
@@ -19,6 +27,7 @@ describe 'BookManager' do
   it 'should get a book by isbn' do
     book = double(Book)
     allow(Book).to receive(:find_by).and_return(book)
+    allow(book).to receive(:is_a?).and_return(true)
     output = BookManager.get(nil, 'isbn', nil)
     expect(output).to eq(book)
   end
@@ -28,23 +37,24 @@ describe 'BookManager' do
     book = double(Book, find_by: true)
     allow(Author).to receive(:find_by).and_return(author)
     allow(Book).to receive(:find_by).and_return(book)
+    allow(author).to receive(:is_a?).and_return(true)
     output = BookManager.get(nil, nil, author)
     expect(output).to eq(book)
   end
 
   it 'should not add a book with an empty title' do
     output = BookManager.add('', '', '')
-    expect(output).to eq("Book title cannot be empty.")
+    expect(output).to eq('Book title cannot be empty.')
   end
 
   it 'should not add a book with an empty ISBN' do
     output = BookManager.add('Ego is the enemy', '', '')
-    expect(output).to eq("Book ISBN cannot be empty.")
+    expect(output).to eq('Book ISBN cannot be empty.')
   end
 
   it 'should not add a book without an author' do
     output = BookManager.add('Ego is the enemy', 'ISBN', nil)
-    expect(output).to eq("Book author cannot be empty.")
+    expect(output).to eq('Book author cannot be empty.')
   end
 
   it 'should add a book with an existing author' do
@@ -88,7 +98,7 @@ describe 'BookManager' do
     allow(book).to receive(:save)
     allow(Book).to receive(:find_by).and_return(book)
     output = BookManager.edit('The obstacle is the way', 'Ego is the enemy', '')
-    expect(output).to eq("The book was updated successfully.")
+    expect(output).to eq('The book was updated successfully.')
   end
 
 
@@ -98,7 +108,7 @@ describe 'BookManager' do
     allow(book).to receive(:save)
     allow(Book).to receive(:find_by).and_return(book)
     output = BookManager.edit('The obstacle is the way', '', 'Updated ISBN')
-    expect(output).to eq("The book was updated successfully.")
+    expect(output).to eq('The book was updated successfully.')
   end
 
   it "should edit a book's title and isbn" do
@@ -107,13 +117,13 @@ describe 'BookManager' do
     allow(book).to receive(:save)
     allow(Book).to receive(:find_by).and_return(book)
     output = BookManager.edit('The obstacle is the way', 'Ego is the enemy', 'ISBN 2')
-    expect(output).to eq("The book was updated successfully.")
+    expect(output).to eq('The book was updated successfully.')
   end
 
 
   it 'should not delete a book not found' do
     allow(BookManager).to receive(:get)
-    output = BookManager.delete('Ego is the enemy', nil)
+    output = BookManager.delete('Ego is the enemy')
     expect(output).to eq('Book was not found.')
   end
 
@@ -121,7 +131,7 @@ describe 'BookManager' do
     book = double(Book)
     allow(Book).to receive(:find_by).and_return(book)
     allow(book).to receive(:destroy)
-    output = BookManager.delete('Ego is the enemy', 'ISBN 31')
+    output = BookManager.delete('Ego is the enemy')
     expect(output).to eq('The book was deleted successfully.')
   end
 

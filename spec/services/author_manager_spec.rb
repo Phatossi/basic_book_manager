@@ -75,6 +75,7 @@ describe AuthorManager do
       name = 'Ryan Holiday'
       author = instance_double(Author, destroy: true)
       allow(Author).to receive(:find_by).with(name: name).and_return(author)
+      allow(author).to receive(:is_a?).and_return(true)
       expect(author).to receive(:destroy)
       output = AuthorManager.delete(name)
       expect("The author was deleted successfully.").to eq(output)
