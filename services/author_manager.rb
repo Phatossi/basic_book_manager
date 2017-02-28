@@ -16,7 +16,7 @@ class AuthorManager < Manager
       if !author
         'Author was not found'
       else
-       author
+        author
       end
     end
   end
@@ -24,7 +24,7 @@ class AuthorManager < Manager
   def self.add(name, age)
     open_database_connection
     author = self.get(name)
-    if author
+    if !author.is_a? (Author)
       'An author with this name is already registered in our database.'
     else
     open_database_connection
