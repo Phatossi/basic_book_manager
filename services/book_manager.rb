@@ -7,33 +7,41 @@ class BookManager < Manager
 
   def self.get(title, isbn, author)
     open_database_connection
-    if !is_string_blank?(title)
-      book = Book.find_by(title: title)
-      if !book
-        'Book was not found'
-      else
-        book
-      end
-    elsif !is_string_blank?(isbn)
-      book = Book.find_by(isbn: isbn)
-      if !book
-        'Book was not found'
-      else
-        book
-      end
-    elsif author
-      author = AuthorManager.get(name)
-      if author
-       book = Book.find_by(author: author)
+      if title == 'all'
+        books = Book.all
+        if !books
+          'No book found.'
+        else
+          books
+        end
+      else if !is_string_blank?(title)
+        book = Book.find_by(title: title)
         if !book
           'Book was not found'
+        else
+          book
         end
-       book
+      elsif !is_string_blank?(isbn)
+        book = Book.find_by(isbn: isbn)
+        if !book
+          'Book was not found'
+        else
+          book
+        end
+      elsif author
+        author = AuthorManager.get(name)
+        if author
+         book = Book.find_by(author: author)
+          if !book
+            'Book was not found'
+          end
+         book
+        end
+      else
+        'Book was not found.'
       end
-    else
-      'Book was not found.'
+      end
     end
-  end
 
 
   def self.add(title, isbn, author)
@@ -46,7 +54,7 @@ class BookManager < Manager
     else
       open_database_connection
       found_author = AuthorManager.get(author.name)
-      if !found_author
+      if !found_author.is_a? (Author)
        found_author = Author.create({
                 name: author.name,
                 age: author.age
