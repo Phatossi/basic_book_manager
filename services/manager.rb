@@ -5,7 +5,7 @@ require 'yaml'
 class Manager < ActiveRecord::Base
 
 
-  def self.string_is_blank? (string)
+  def self.is_string_blank? (string)
     if string || !string.to_s.empty?
       false
     else

@@ -4,7 +4,7 @@ require 'pp'
 class AuthorManager < Manager
   def self.get(name)
     open_database_connection
-    if string_is_blank?(name)
+    if is_string_blank?(name)
       authors = Author.all
       if !authors
         'No author was found.'
@@ -44,7 +44,7 @@ class AuthorManager < Manager
       if !author
         'Author was not found.'
       else
-        if !string_is_blank?(new_name)
+        if !is_string_blank?(new_name)
           new_name = new_name.split.map(&:capitalize).join(' ')
           author.update(name: new_name)
         end

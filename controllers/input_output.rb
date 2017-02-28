@@ -27,8 +27,16 @@ class InputOutput
       break if function == 'quit'
         display_items
       item = get_input_item
+      supported_items = get_supported_items
+      loop do
+        break if supported_items.include?(item)
+        break if item == 'quit'
+        puts 'Please provide a valid item:'
+        print_items
+        item = gets.chomp
+      end
       break if item == 'quit'
-      if item == 'Book'
+      if item == 'book'
         handle_book_input(function)
       else
         handle_author_input(function)
@@ -131,6 +139,11 @@ class InputOutput
     def add_author
       puts 'Type the name of the author:'
       name = gets.chomp
+      loop do
+        break if !Manager.is_string_blank?(name)
+        puts 'Please type the name of the author:'
+        name = gets.chomp
+      end
       puts 'Type the age of the author:'
       age = gets.chomp
       puts AuthorManager.add(name, age)
@@ -145,7 +158,7 @@ class InputOutput
       puts 'Type the name of the author that you want to edit:'
       old_name = gets.chomp
       loop do
-        break if !Manager.string_is_blank?(old_name)
+        break if !Manager.is_string_blank?(old_name)
         old_name = gets.chomp
       end
       author = AuthorManager.get(old_name)
@@ -164,7 +177,7 @@ class InputOutput
       puts 'Type the name of the author: '
       name = gets.chomp
       loop do
-        break if !Manager.string_is_blank?(name)
+        break if !Manager.is_string_blank?(name)
         puts 'Please type a name of an author that is already registered:'
         name = gets.chomp
       end
@@ -173,9 +186,42 @@ class InputOutput
 
     def add_book
       puts 'Type the title of the book that you want to add:'
-      name = gets.chomp
-
+      title = gets.chomp
+      loop do
+        break if !Manager.is_string_blank?(title)
+        puts 'Please provide a title:'
+        title = gets.chomp
+      end
+      puts 'Type the ISBN:'
+      isbn = gets.chomp
+      loop do
+        break if !Manager.is_string_blank?(isbn)
+        puts 'Please provide the ISBN:'
+        isbn = gets.chomp
+      end
+      puts 'Type the name of the author of this book:'
+      author_name = gets.chomp
+      loop do
+        break if !Manager.is_string_blank?(author_name)
+        puts 'Please provide a valid name'
+        author_name = gets.chomp
+      end
+      author = AuthorManager.get(author_name)
+      if !author
+        puts "It turns out that this user is not added to our database yet. We are glad to have you help us add this new author as well.\n"
+        add_author
+        puts "\nPlease write the name of the author once again:"
+        author_name = gets.chomp
+        loop do
+          break if !Manager.is_string_blank?(author_name)
+          puts "\nPlease write the name of the author once again:"
+          author_name = gets.chomp
+        end
+        author =  AuthorManager.get(author_name)
+      end
+     puts BookManager.add(title, isbn, author)
     end
+
 
 
 end
