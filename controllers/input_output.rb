@@ -12,6 +12,8 @@ class InputOutput
     finish
   end
 
+  private
+
   def start
     puts "\n\n>>> Welcome to our book management system. We wish you a joyful experience. <<<\n\n"
   end
@@ -72,6 +74,7 @@ class InputOutput
   end
 
   def display_functions
+    puts '__'*45 + "\n"
     puts 'These are the services that we offer you for the moment: '
     print_functions
   end
@@ -108,7 +111,6 @@ class InputOutput
     input_item
   end
 
-  private
     def get_functions
      ['add', 'update', 'list', 'remove']
     end
@@ -272,9 +274,6 @@ class InputOutput
       title = get_valid_input('title')
       puts BookManager.delete(title)
     end
-
-
-  private
 
     def get_valid_input(string)
       input = gets.chomp

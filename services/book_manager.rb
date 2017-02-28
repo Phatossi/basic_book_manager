@@ -68,8 +68,7 @@ class BookManager < Manager
     else
       open_database_connection
       book = BookManager.get(old_title, '', '')
-      puts book
-      if !book
+      if !book.is_a?(Book)
           'Book was not found.'
       else
         if !Manager.is_string_blank?(title)
