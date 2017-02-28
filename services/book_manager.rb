@@ -62,11 +62,12 @@ class BookManager < Manager
   end
 
   def self.edit(old_title, title, isbn)
-    if is_string_blank? (old_title)
+    if Manager.is_string_blank? (old_title)
       'Please provide the title of the book.'
     else
       open_database_connection
       book = BookManager.get(old_title, '', '')
+      puts book
       if !book
           'Book was not found.'
       else
@@ -86,7 +87,7 @@ class BookManager < Manager
   def self.delete(title, isbn)
     open_database_connection
     book = BookManager.get(title, nil, nil)
-    if !book
+    if !book.is_a?(Book)
       'Book was not found.'
     else
       book.destroy
