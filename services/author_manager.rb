@@ -59,7 +59,7 @@ class AuthorManager < Manager
   def self.delete(name)
     open_database_connection
     author = AuthorManager.get(name)
-    if author
+    if author.is_a? (Author)
       author.destroy
       'The author was deleted successfully.'
     else
