@@ -25,7 +25,7 @@ class InputOutput
       display_functions
       function = get_input_function
       break if function == 'quit'
-        display_items
+      display_items
       item = get_input_item
       supported_items = get_supported_items
       loop do
@@ -71,7 +71,6 @@ class InputOutput
     end
   end
 
-
   def display_functions
     puts 'These are the services that we offer you for the moment: '
     print_functions
@@ -80,10 +79,6 @@ class InputOutput
   def display_items
     puts 'These are the items that you can modify or get information about:'
     print_items
-  end
-
-  def handle_output
-
   end
 
   def get_input_function
@@ -138,12 +133,7 @@ class InputOutput
 
     def add_author
       puts 'Type the name of the author:'
-      name = gets.chomp
-      loop do
-        break if !Manager.is_string_blank?(name)
-        puts 'Please type the name of the author:'
-        name = gets.chomp
-      end
+      name = get_valid_input('name')
       puts 'Type the age of the author:'
       age = gets.chomp
       puts AuthorManager.add(name, age)
@@ -186,37 +176,17 @@ class InputOutput
 
     def add_book
       puts 'Type the title of the book that you want to add:'
-      title = gets.chomp
-      loop do
-        break if !Manager.is_string_blank?(title)
-        puts 'Please provide a title:'
-        title = gets.chomp
-      end
+      title = get_valid_input('title')
       puts 'Type the ISBN:'
-      isbn = gets.chomp
-      loop do
-        break if !Manager.is_string_blank?(isbn)
-        puts 'Please provide the ISBN:'
-        isbn = gets.chomp
-      end
+      isbn = get_valid_input('isbn')
       puts 'Type the name of the author of this book:'
-      author_name = gets.chomp
-      loop do
-        break if !Manager.is_string_blank?(author_name)
-        puts 'Please provide a valid name'
-        author_name = gets.chomp
-      end
+      author_name = get_valid_input('name')
       author = AuthorManager.get(author_name)
-      if !author
+      if !author.is_a? (Author)
         puts "It turns out that this user is not added to our database yet. We are glad to have you help us add this new author as well.\n"
         add_author
         puts "\nPlease write the name of the author once again:"
-        author_name = gets.chomp
-        loop do
-          break if !Manager.is_string_blank?(author_name)
-          puts "\nPlease write the name of the author once again:"
-          author_name = gets.chomp
-        end
+        author_name = get_valid_input('name')
         author =  AuthorManager.get(author_name)
       end
      puts BookManager.add(title, isbn, author)
@@ -224,13 +194,16 @@ class InputOutput
 
    def get_book
     puts 'Do you want to find the book by title, isbn, or author?'
+    puts 'Type all if you want to see all the books:'
     input = gets.chomp
      loop do
-       break if (input == 'author') || (input == 'isbn') || (input == 'title')
+       break if (input == 'author') || (input == 'isbn') || (input == 'title') || (input == 'all')
        puts 'Please type a valid value (e.g. title, isbn, author)'
        input =  gets.chomp
      end
     case input
+      when 'all'
+        get_all_book
       when 'title'
         get_book_by_title
       when 'isbn'
@@ -240,31 +213,26 @@ class InputOutput
      end
     end
 
+    def get_all_book
+      pp BookManager.get('all', '', '')
+    end
+
+
     def get_book_by_title
       puts 'Type the name of the title'
-      title = gets.chomp
-      loop do
-        break if !Manager.is_string_blank?(title)
-        puts 'Please provide a valid title:'
-        title = gets.chomp
-      end
-      puts BookManager.get(title, '', '')
+      title = get_valid_input('title')
+      pp BookManager.get(title, '', '')
     end
 
     def get_book_by_isbn
       puts 'Type the isbn of the title'
-      isbn = gets.chomp
-      loop do
-        break if !Manager.is_string_blank?(isbn)
-        puts 'Please provide a valid title:'
-        isbn = gets.chomp
-      end
-      puts BookManager.get('', isbn, '')
+      isbn = get_valid_input('isbn')
+      pp BookManager.get('', isbn, '')
     end
 
     def get_book_by_author
       author = get_author
-      puts BookManager.get('', '', author)
+      pp BookManager.get('', '', author)
     end
 
    def edit_book
@@ -281,46 +249,41 @@ class InputOutput
          when 'isbn'
          edit_book_isbn
         end
-      end
+   end
 
     def edit_book_title
       puts 'Type the old title:'
-      old_title = gets.chomp
-      loop do
-        break if !Manager.is_string_blank?(old_title)
-        puts 'Please provide a valid title:'
-        old_title = gets.chomp
-      end
+      old_title = get_valid_input('title')
       puts 'Type the new title:'
-      new_title = gets.chomp
-      loop do
-        break if !Manager.is_string_blank?(new_title)
-        puts 'Please provide a valid title:'
-        new_title = gets.chomp
-      end
+      new_title = get_valid_input('title')
       puts BookManager.edit(old_title, new_title, '')
     end
 
-  def edit_book_isbn
-    puts 'Type the book title:'
-    old_title = gets.chomp
-    loop do
-      break if !Manager.is_string_blank?(old_title)
-      puts 'Please provide a valid title:'
-      old_title = gets.chomp
+    def edit_book_isbn
+      puts 'Type the book title:'
+      old_title = get_valid_input('title')
+      puts 'Type the ISBN:'
+      isbn = get_valid_input('isbn')
+      puts BookManager.edit(old_title, '', isbn)
     end
-    puts 'Type the ISBN:'
-    isbn = gets.chomp
-    loop do
-      break if !Manager.is_string_blank?(isbn)
-      puts 'Please provide a valid isbn:'
-      new_title = gets.chomp
-    end
-    puts BookManager.edit(old_title, '', isbn)
-  end
 
     def delete_book
+      puts 'Type the title of the book that you want to remove:'
+      title = get_valid_input('title')
+      puts BookManager.delete(title)
+    end
 
+
+  private
+
+    def get_valid_input(string)
+      input = gets.chomp
+      loop do
+        break !Manager.is_string_blank?(input)
+        puts 'Please provide a valid value for: ' + string
+        input = gets.chomp
+      end
+      input
     end
 
 end

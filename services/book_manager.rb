@@ -16,21 +16,21 @@ class BookManager < Manager
         end
       else if !is_string_blank?(title)
         book = Book.find_by(title: title)
-        if !book
+        if !book.is_a? (Book)
           'Book was not found'
         else
           book
         end
       elsif !is_string_blank?(isbn)
         book = Book.find_by(isbn: isbn)
-        if !book
+        if !book.is_a? (Book)
           'Book was not found'
         else
           book
         end
       elsif author
         author = AuthorManager.get(name)
-        if author
+        if !author.is_a? (Author)
          book = Book.find_by(author: author)
           if !book
             'Book was not found'
@@ -49,24 +49,17 @@ class BookManager < Manager
       'Book title cannot be empty.'
     elsif is_string_blank?(isbn)
       'Book ISBN cannot be empty.'
-    elsif !author
+    elsif !author.is_a? (Author)
       'Book author cannot be empty.'
     else
       open_database_connection
-      found_author = AuthorManager.get(author.name)
-      if !found_author.is_a? (Author)
-       found_author = Author.create({
-                name: author.name,
-                age: author.age
-                })
-      end
-      Book.create({
+        Book.create({
           title: title,
           isbn: isbn,
           author: author
-              })
+          })
       'Book was added successfully.'
-    end
+      end
   end
 
   def self.edit(old_title, title, isbn)
