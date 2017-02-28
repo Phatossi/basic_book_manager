@@ -8,10 +8,12 @@ describe AuthorManager do
     end
 
     it 'should not add an author with a name that was used before' do
+      old_name = 'Ryan Holiday'
       author = double(Author, find_by: true)
-      allow(Author).to receive(:find_by).and_return(author)
-      output = AuthorManager.add('Ryan Holiday', 28)
-      expect(output).to eq("An author with this name is already registered in our database.")
+      allow(author).to receive(:is_a?).and_return(true)
+      allow(Author).to receive(:find_by).with(name: old_name).and_return(author)
+      output = AuthorManager.add(old_name, 28)
+      expect(output).to eq('An author with this name is already registered in our database.')
     end
 
     it 'should add an author' do
@@ -19,7 +21,7 @@ describe AuthorManager do
       allow(Author).to receive(:find_by)
       expect(Author).to receive (:create)
       output = AuthorManager.add('Ryan Holiday', 28)
-      expect(output).to eq("The author has been registered successfully.")
+      expect(output).to eq('The author has been registered successfully.')
     end
 
     it 'should not edit an author who is not found' do

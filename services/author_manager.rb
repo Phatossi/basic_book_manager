@@ -13,6 +13,7 @@ class AuthorManager < Manager
       end
     else
       author = Author.find_by(name: name)
+      p author
       if !author
         'Author was not found'
       else

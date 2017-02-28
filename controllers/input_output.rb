@@ -43,7 +43,7 @@ class InputOutput
       else
         handle_author_input(function)
       end
-      puts 'If you want to get out of our library, please type quit'
+      puts "\nIf you want to get out of our library, please type quit"
     end
   end
 
