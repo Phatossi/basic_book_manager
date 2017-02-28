@@ -11,11 +11,15 @@ class BookManager < Manager
       book = Book.find_by(title: title)
       if !book
         'Book was not found'
+      else
+        book
       end
     elsif !is_string_blank?(isbn)
       book = Book.find_by(isbn: isbn)
       if !book
         'Book was not found'
+      else
+        book
       end
     elsif author
       author = AuthorManager.get(name)
@@ -24,6 +28,7 @@ class BookManager < Manager
         if !book
           'Book was not found'
         end
+       book
       end
     else
       'Book was not found.'

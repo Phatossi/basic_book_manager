@@ -4,20 +4,21 @@ require 'pp'
 class AuthorManager < Manager
   def self.get(name)
     open_database_connection
+    p name
     if is_string_blank?(name)
       authors = Author.all
       if !authors
         'No author was found.'
-        return
+      else
+        authors
       end
-      authors
     else
-    author = Author.find_by(name: name)
-    if !author
-      'Author was not found'
-      return
-    end
-     author
+      author = Author.find_by(name: name)
+      if !author
+        'Author was not found'
+      else
+       author
+      end
     end
   end
 

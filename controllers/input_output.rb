@@ -150,7 +150,7 @@ class InputOutput
     end
 
     def get_author
-      puts 'Type the name of the author that you want to find. If you want to see the list of all author, press Enter'
+      puts 'Type the name of the author that you want to find. If you want to see the list of all author, press Enter:'
       pp AuthorManager.get(gets.chomp)
     end
 
@@ -253,7 +253,7 @@ class InputOutput
     end
 
     def get_book_by_isbn
-      puts 'Type the name of the title'
+      puts 'Type the isbn of the title'
       isbn = gets.chomp
       loop do
         break if !Manager.is_string_blank?(isbn)
