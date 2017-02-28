@@ -2,14 +2,14 @@ require_relative '../../services/author_manager'
 require_relative '../../services/manager'
 describe AuthorManager do
 
-  before do
-    allow(AuthorManager).to receive(:open_database_connection)
-  end
+    before do
+      allow(AuthorManager).to receive(:open_database_connection)
+      allow(File).to receive(:open)
+    end
 
     it 'should not add an author with a name that was used before' do
-      author = double(Author)
+      author = double(Author, find_by: true)
       allow(Author).to receive(:find_by).and_return(author)
-      allow(File).to receive(:open)
       output = AuthorManager.add('Ryan Holiday', 28)
       expect(output).to eq("An author with this name is already registered in our database.")
     end
@@ -32,14 +32,16 @@ describe AuthorManager do
       author = instance_double(Author, update: true, save: true)
       allow(Author).to receive(:find_by).with(name: old_name).and_return(author)
       expect(author).to receive (:save)
+      allow(author).to receive(:is_a?).and_return(true)
       output = AuthorManager.edit(old_name, 'Cal Newport', 0)
-      expect("The author was updated successfully.").to eq(output)
+      expect(output).to eq('The author was updated successfully.')
     end
 
     it "should edit author's age" do
       name = 'Ryan Holiday'
       author = instance_double(Author, update: true, save: true)
       allow(Author).to receive(:find_by).with(name: name).and_return(author)
+      allow(author).to receive(:is_a?).and_return(true)
       expect(author).to receive (:save)
       output = AuthorManager.edit(name, '', 34)
       expect("The author was updated successfully.").to eq(output)
